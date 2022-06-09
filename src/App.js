@@ -57,7 +57,7 @@ export default class App extends React.Component {
               handleRest={() => this.handleRest()}
             /></h4>
             <button onClick="{handleSaveNote}" disabled="{!note}">
-                Transcribe
+                Transcribe Audio
             </button>
           </div>
           <div className="box"><br/>
