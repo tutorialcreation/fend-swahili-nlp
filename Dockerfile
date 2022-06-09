@@ -1,4 +1,4 @@
-FROM node:8.4.0
+FROM node:16.13.1
 RUN npm install -g serve
 COPY package.json package.json
 RUN npm install
