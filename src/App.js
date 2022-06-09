@@ -61,7 +61,7 @@ export default class App extends React.Component {
             </button>
           </div>
           <div className="box"><br/>
-            <h2 className="block">Predicted Transcription</h2>
+            <h2 className="block">Predicted Transcription Text</h2>
             <div className="">
               {/* {savedNotes.map(n => (
                 <p key={n}>{n}</p>
