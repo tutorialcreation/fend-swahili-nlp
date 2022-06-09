@@ -44,7 +44,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="container"> 
-        <h2> Swahili Text-to-Speech App</h2><br/>
+        <h2> Swahili Speech-To-Text App</h2><br/>
         <div className="box">
             <h4>
             <Recorder className="block"
