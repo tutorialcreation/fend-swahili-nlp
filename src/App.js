@@ -121,7 +121,7 @@ export default class App extends React.Component {
       <div className="container"> 
         <h2> Swahili Speech-To-Text Web Application</h2><br/>
         <div className="box">
-            <h4>
+            {/* <h4>
             <Recorder className="block"
               record={true}
               title={"Speeches Data to be Predicted"}
@@ -129,7 +129,7 @@ export default class App extends React.Component {
               showUIAudio
               handleAudioStop={(data) => this.handleAudioStop(data)}
               handleReset={() => this.handleReset()}
-            /></h4>
+            /></h4> */}
             <input type='file' onChange={(e) => this.upload(e)} name='audio_file' />
             
             <button onClick={this.handleSaveNote}>
