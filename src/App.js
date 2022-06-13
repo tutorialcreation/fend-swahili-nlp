@@ -2,6 +2,7 @@ import React from "react";
 import { Recorder } from "react-voice-recorder";
 import {axios} from 'axios';
 import "react-voice-recorder/dist/index.css";
+import AudioReactRecorder, { RecordState } from 'audio-react-recorder'
 import "./App.css";
 
 export default class App extends React.Component {
@@ -11,6 +12,7 @@ export default class App extends React.Component {
     this.state = {
       savedNotes:"text",
       results:{},
+      recordState: null,
       audioURL: null,
       audioDetails: {
         url: null,
@@ -56,13 +58,13 @@ export default class App extends React.Component {
           body: formData,
         }).then((resp) => {
           resp.json().then((result) => {
+            console.log(result)
             this.setState({results:result})
           })
         })
       });
     }
-    // const audiofile = new Blob(data.chunks, {type:'audio/wav; codecs=MS_PCM'});
-    // const audiofile = new File([data.blob], `test+${Math.random()}.wav`, { type: "audio/wav" })
+    
     
   }
   
@@ -95,6 +97,11 @@ export default class App extends React.Component {
     
   }
 
+  handleAudioUpload(data){
+    console.log(data)
+    window.alert("How to upload? In order to upload scroll the page below and find a button"+
+    " named 'browse' click it and upload your .wav file. It must be a .wav file then click transcribe audio")
+  }
   handleSaveNote = async () =>{
     console.log("result")
     const res = await this.state.results
@@ -115,21 +122,61 @@ export default class App extends React.Component {
     console.log(res)
     
   }
-  
+  start = () => {
+    this.setState({
+      recordState: RecordState.START
+    })
+  }
+ 
+  stop = () => {
+    this.setState({
+      recordState: RecordState.STOP
+    })
+  }
+ 
+  //audioData contains blob and blobUrl
+  onStop = (audioData) => {
+    console.log('audioData', audioData)
+    const audiofile = new File([audioData.blob], `test+${Math.random()}.wav`, { type: "audio/wav" })
+    const formData = new FormData()
+    formData.append('audio_file', audiofile)
+    fetch('https://africanlp.herokuapp.com/stt/audio/', {
+      method: 'POST',
+      body: formData,
+    }).then((resp) => {
+      resp.json().then((result) => {
+        console.log(result)
+        this.setState({results:result})
+      })
+    })
+  }
+
   render() {
+    const { recordState } = this.state
+
     return (
       <div className="container"> 
         <h2> Swahili Speech-To-Text Web Application</h2><br/>
         <div className="box">
-            {/* <h4>
+            <div>
+            <h4>
+              {/* <AudioReactRecorder state={recordState} onStop={this.onStop} />
+      
+              <button onClick={this.start}>Start</button>
+              <button onClick={this.stop}>Stop</button> */}
+            
             <Recorder className="block"
               record={true}
               title={"Speeches Data to be Predicted"}
               audioURL={this.state.audioDetails.url}
               showUIAudio
               handleAudioStop={(data) => this.handleAudioStop(data)}
+              handleAudioUpload={(data) => this.handleAudioUpload(data)}
               handleReset={() => this.handleReset()}
-            /></h4> */}
+            />
+            </h4>
+            </div>
+            <hr/>
             <input type='file' onChange={(e) => this.upload(e)} name='audio_file' />
             
             <button onClick={this.handleSaveNote}>
